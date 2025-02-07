@@ -90,7 +90,7 @@ def main():
     width, height = 700, 480
     original_videos = []
     reconstructed_videos = []
-    video_files = sorted(train_folder.glob("*.mp4"))[:100]
+    video_files = sorted(train_folder.glob(os.path.join(train_folder, "*.mp4")))[:100]
     ssim_model = SSIM()
     to_tensor = pth_transforms.ToTensor()
     for video_path in tqdm(video_files):
