@@ -93,7 +93,7 @@ def main():
     run_folder = create_run_folder()
     model_path = "pyramid_flow_model/causal_video_vae"
     model_dtype = 'fp32'
-    device_id = 1
+    device_id = 0
     torch.cuda.set_device(device_id)
     model = CausalVideoVAELossWrapper(model_path, model_dtype, interpolate=False, add_discriminator=False)
     model = model.to("cuda")
