@@ -122,8 +122,14 @@ def main():
             export_to_video(rec_frames, os.path.join(run_folder, "reconstructed", f"{os.path.basename(video_path).split('.')[0]}.mp4"), fps=24)
         except:
             pass
-    final_ssim = sum(calculate_ssim(ov.unsqueeze(0), rv.unsqueeze(0), ssim_model) for ov, rv in zip(original_videos, reconstructed_videos) if ov is not None and rv is not None)
-    count = len(original_videos)
+
+    final_ssim = 0
+    count = 0
+    for ov, rv in zip(original_videos, reconstructed_videos):
+        _ssim = calculate_ssim(ov.unsqueeze(0), rv.unsqueeze(0), ssim_model)
+        if _ssim is not None and _ssim > 0:
+            final_ssim += _ssim
+            count += 1
     result = final_ssim / count if count > 0 else 0
     print(f"Final SSIM: {result}")
     with open(os.path.join(run_folder, "ssim.txt"), "w") as f:
