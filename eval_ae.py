@@ -15,6 +15,7 @@ from diffusers.utils import load_image, export_to_video, export_to_gif
 from IPython.display import HTML
 from eval_utils import SSIM, calculate_ssim
 from tqdm import tqdm
+from glob import glob
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Process video dataset and compute SSIM.")
@@ -78,7 +79,7 @@ def load_video_and_transform(video_path, frame_number, new_width=None, new_heigh
 
 def main():
     args = parse_args()
-    train_folder = Path(args.src)
+    train_folder = args.src
     model_path = "pyramid_flow_model/causal_video_vae"
     model_dtype = 'fp32'
     device_id = 0
@@ -90,7 +91,7 @@ def main():
     width, height = 700, 480
     original_videos = []
     reconstructed_videos = []
-    video_files = sorted(train_folder.glob(os.path.join(train_folder, "*.mp4")))[:100]
+    video_files = sorted(glob(os.path.join(train_folder, "*.mp4")))[:100]
     ssim_model = SSIM()
     to_tensor = pth_transforms.ToTensor()
     for video_path in tqdm(video_files):
