@@ -101,7 +101,7 @@ def main():
     model = model.to("cuda")
     torch_dtype = torch.float32
     frame_number = 121
-    width, height = 720, 480
+    width, height = 1920, 1080
     original_videos = []
     reconstructed_videos = []
     video_files = sorted(glob(os.path.join(train_folder, "train", "*.mp4")))[:args.n]
