@@ -123,6 +123,7 @@ def main():
             export_to_video(rec_frames, os.path.join(run_folder, "reconstructed", f"{os.path.basename(video_path).split('.')[0]}.mp4"), fps=24)
         except Exception as e:
             print(f"Error processing video: {video_path}")
+            print(e)
 
     final_ssim = 0
     count = 0
