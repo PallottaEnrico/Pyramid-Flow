@@ -121,8 +121,8 @@ def main():
             reconstructed_videos.append(rec_video_tensor)
             export_to_video(pil_video_frames, os.path.join(run_folder, "original", f"{os.path.basename(video_path).split('.')[0]}.mp4"), fps=24)
             export_to_video(rec_frames, os.path.join(run_folder, "reconstructed", f"{os.path.basename(video_path).split('.')[0]}.mp4"), fps=24)
-        except:
-            pass
+        except Exception as e:
+            print(f"Error processing video: {video_path}")
 
     final_ssim = 0
     count = 0
