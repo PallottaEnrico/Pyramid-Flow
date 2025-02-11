@@ -100,8 +100,8 @@ def main():
     model = CausalVideoVAELossWrapper(model_path, model_dtype, interpolate=False, add_discriminator=False)
     model = model.to("cuda")
     torch_dtype = torch.float32
-    frame_number = 65
-    width, height = 1280, 720
+    frame_number = 241
+    width, height = 720, 480
     original_videos = []
     reconstructed_videos = []
     video_files = sorted(glob(os.path.join(train_folder, "train", "*.mp4")))[:args.n]
