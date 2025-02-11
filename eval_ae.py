@@ -21,6 +21,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Process video dataset and compute SSIM.")
     parser.add_argument("--src", required=True, type=str, help="Path to source folder containing videos.")
     parser.add_argument("--n", default=100, type=int, help="Number of videos to process.")
+    parser.add_argument("--resize", action="store_true", help="Resize images to 720x480.")
     return parser.parse_args()
 
 def create_run_folder(base_path="runs"):
@@ -100,7 +101,7 @@ def main():
     model = model.to("cuda")
     torch_dtype = torch.float32
     frame_number = 121
-    width, height = 700, 480
+    width, height = 720, 480
     original_videos = []
     reconstructed_videos = []
     video_files = sorted(glob(os.path.join(train_folder, "train", "*.mp4")))[:args.n]
@@ -108,7 +109,7 @@ def main():
     to_tensor = pth_transforms.ToTensor()
     for video_path in tqdm(video_files):
         try:
-            video_frames_tensor, pil_video_frames = load_video_and_transform(video_path, frame_number, new_width=width, new_height=height, resize=False)
+            video_frames_tensor, pil_video_frames = load_video_and_transform(video_path, frame_number, new_width=width, new_height=height, resize=args.resize)
             video_frames_tensor = video_frames_tensor.permute(1, 0, 2, 3).unsqueeze(0)
             with torch.no_grad(), torch.cuda.amp.autocast(enabled=True, dtype=torch_dtype):
                 latent = model.encode_latent(video_frames_tensor.to("cuda"), sample=False, window_size=8, temporal_chunk=True)
