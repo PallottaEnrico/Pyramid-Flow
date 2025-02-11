@@ -20,6 +20,7 @@ from tqdm import tqdm
 def parse_args():
     parser = argparse.ArgumentParser(description="Process video dataset and compute SSIM.")
     parser.add_argument("--src", required=True, type=str, help="Path to source folder containing videos.")
+    parser.add_argument("--n", default=100, type=int, help="Number of videos to process.")
     return parser.parse_args()
 
 def create_run_folder(base_path="runs"):
@@ -102,7 +103,7 @@ def main():
     width, height = 700, 480
     original_videos = []
     reconstructed_videos = []
-    video_files = sorted(glob(os.path.join(train_folder, "train", "*.mp4")))[:100]
+    video_files = sorted(glob(os.path.join(train_folder, "train", "*.mp4")))[:args.n]
     ssim_model = SSIM()
     to_tensor = pth_transforms.ToTensor()
     for video_path in tqdm(video_files):
